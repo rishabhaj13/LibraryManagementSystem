@@ -1,0 +1,55 @@
+package com.lms_backend.controller;
+
+import com.lms_backend.dto.BookDTO;
+import com.lms_backend.dto.BookSaveDTO;
+import com.lms_backend.dto.BookUpdateDTO;
+import com.lms_backend.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.List;
+
+@Tag(name = "Book RESTful APIs", description = "Book CRUD operations")
+@RestController
+@CrossOrigin
+@RequestMapping("api/v1/book")
+public class BookController {
+
+    @Autowired
+    private BookService bookService;
+
+    @PostMapping(path = "/save")
+    public String saveBook(@RequestBody BookSaveDTO bookSaveDTO)
+    {
+        String booktitle = bookService.addBook(bookSaveDTO);
+        return  "Added Successfully";
+    }
+
+
+
+    @GetMapping(path = "/getAllBook")
+    public List<BookDTO> getAllBook()
+    {
+        List<BookDTO> allBooks = bookService.getAllBook();
+        return allBooks;
+    }
+
+    @PutMapping(path = "/update")
+    public String updateBook(@RequestBody BookUpdateDTO bookUpdateDTO)
+    {
+        String bookname = bookService.updateBook(bookUpdateDTO);
+        return  bookname;
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public String deleteBook(@PathVariable(value = "id")int id)
+    {
+        String Bookname = bookService.deleteBook(id);
+        return  "deleteddd";
+    }
+
+
+
+}
